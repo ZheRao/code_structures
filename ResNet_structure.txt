@@ -66,7 +66,25 @@ block_6 (can repeat) - input (1024,16,16)
     - add up ---> (1024,16,16)
         -- leakyReLU + dropout
 
-repeat two set of blocks again to obtain output (2048,8,8)
+block_7 - input (1024,16,16)
+    - small chunk
+        -- 2048 1x1 kernel, 0 padding, 2 stride, batchnorm ---> (2048,8,8)
+    - big chunk
+        -- 512 1x1 kernel, 0 padding, 1 stride, batchnorm&leakyReLU ---> (512,16,16)
+        -- 512 3x3 kernel, 1 padding, 2 stride, batchnorm&leakyReLU ---> (512,8,8)
+        -- 2048 1x1 kernel, 0 padding, 1 stride, batchnorm ---> (2048,8,8)
+    - add up ---> (2048,8,8)
+        -- leakyReLU + dropout
+
+block_8 (can repeat) - input (2048,8,8)
+    - small chunk
+        -- identity (2048,8,8)
+    - big chunk
+        -- 512 1x1 kernel, 0 padding, 1 stride, batchnorm&leakyReLU ---> (512,8,8)
+        -- 512 3x3 kernel, 1 padding, 1 stride, batchnorm&leakyReLU ---> (512,8,8)
+        -- 2048 1x1 kernel, 0 padding, 1 stride, batchnorm ---> (2048,8,8)
+    - add up ---> (2048,8,8)
+        -- leakyReLU + dropout
 
 AveragePool - input (2048,8,8)
     - kernel_size = 8, stride = 1
@@ -77,4 +95,27 @@ Faltten with start_dim = 1
 
 final linear - input (2048,)
     - output (1000,)
+
+
+
+
+special note about generator (reverse of above network) - replicating block_7
+    - small chunk 
+        -- (3x3 kernel, 4 padding, 2 stride) or (2x2 kernel, 0 padding, stride 2)
+        -- choose the second one because smaller upsampling leads to finer details
+        -- also, more padding result in distortion against data
+    - big chunk
+        -- 1x1 kernel, 0 padding, 1 stride - same dimension
+        -- 2x2 kernel, 0 padding, 2 stride - 2x dimension
+        -- 1x1 kernel, 0 padding, 1 stride - same dimension
+
+special note about generator (reverse of above network) - replicating block_8
+    - small chunk 
+        -- identity 
+    - big chunk
+        -- 1x1 kernel, 0 padding, 1 stride - same dimension
+        -- 3x3 kernel, 1 padding, 1 stride - same dimension
+        -- 1x1 kernel, 0 padding, 1 stride - same dimension
+
+
     
