@@ -1,0 +1,14 @@
+structure
+    - __init__ (dataset, datafolder, transform)
+    - __len__ (return total number of datapoints)
+    - __getitem__ (takes index and return necessary input and output from dataset)
+
+
+image_dataset
+    - __init__ --> store image folder path, transform, and list of all file names in folder
+    - __len__ --> return number of files in the folder
+    - __getitem__ (idx)
+        1. construct complete path of a image (corresponding to idx)
+        2. read image data
+        3. apply transformation
+        4. return image
