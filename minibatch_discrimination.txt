@@ -108,3 +108,43 @@ Step3: apply mask to mask self-differences
 
               [ [1.2341e-04,          0],
                 [3.3546e-04,          0] ] ]
+
+
+
+substitute diff_sum with masked for real implementation
+
+diff_sum dimension (batch, feature, batch)
+    - example (4, 3, 4)
+        tensor([[[ 0,  9,  7, 10],
+                [ 0,  7,  3, 10],
+                [ 0,  4,  6, 14]],
+
+                [[ 9,  0,  6,  5],
+                [ 7,  0,  6,  7],
+                [ 4,  0,  6, 10]],
+
+                [[ 7,  6,  0,  3],
+                [ 3,  6,  0,  7],
+                [ 6,  6,  0,  8]],
+
+                [[10,  5,  3,  0],
+                [10,  7,  7,  0],
+                [14, 10,  8,  0]]])
+    - first block represents the difference between features of image1 - image4
+        -- first line represents the difference between feature1 of image1 - image4
+    - split the tensor in half along the last dimension (result in two (4,3,2))
+    - add the last dimension for each matrix, shrink the last dimension
+        -- normalize by dividing each element by the sum of all elements for each matrix
+    - now we have two (4,3) matrix
+    - concatenate along the last dimension, becomes (4,6)
+    - input will be (4,6)
+        -- assuming batch_size=4, kernel/features = 3, feature_dim = 2
+    - concatenate to produce final output (4,12)
+
+conceptually
+    - each block for diff_sum (shape (3,4)) becomes (6,)
+        -- split into (3,2) and (3,2)
+        -- add up, becomes (3,) and (3,)
+        -- concatenate (6,)
+    - first vector of (6, ) represents features of image1 vs. image1 - image4 
+        -- contains similarity information that we need
