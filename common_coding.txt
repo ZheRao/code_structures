@@ -1,0 +1,129 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7. Common Practices
+    - list related
+        -- .item() - get a single number out of a list/tensor as a python regular int/float
+        -- set(list) - create a set object that contains unique values in the list
+        -- sorted(list) - create a list object that contains sorted values in the list
+        -- itemgetter(*index_list)(list) - retrieve multiple items from a list with a list of index, operator module
+        -- list(map(function, target)) - apply the function on elements of target
+        -- list.index(element, start, end) - locate index of element from start to end positions
+    
+    - object: Random
+        -- random.choice(list) - choose a random sample from the list
+        -- random.sample(list,k=n) - choose n random samples from the list
+    
+    - object: Dictionary
+        -- for key in dict: - retrieve the keys
+        -- for item in dict.items(): - retrieve the items
+        -- dict.get(key,alt_value) - retrieve value from key, if not found, return alt_value
+        -- itemgetter(*keys)(dict) - retrieve items corresponding to the keys
+        -- with open(path, "wb") as f: pickle.dump(dict,f) - save Dictionary
+        -- with open(path, "rb") as f: dict=pickle.load(f) - load Dictionary
+        -- max(stats, key=dict.get) - retrieve the value where the key is the largest
+        -- sorted(dict.items(),key=lambda x: x[1], reverse=True) - sort dictionary based on value
+    
+    - copy files with shutil
+        -- shutil.copyfile(path_from,path_to)
+    
+    - Try and Assert
+        -- assert condition, "message"
+        -- try, except
+            try:
+                condition
+            except:
+                action if condition fail
+            else:
+                action if condition didn't fail
+            finally:
+                action regardless of condition
+    
+    - object: tqdm
+        from tqdm.auto import tqdm
+        -- progress_bar = tqdm(range(num_steps))
+        -- progress_bar.update(step)
+    
+    - object: string
+        -- string.find(pattern,start,end) - find the index where the pattern occurred
+        -- "a d c b".split(" ") ---> ["a", "d", "c", "b"]
+        -- "|".join(["a", "b", "c"]) ---> "a|b|c"
+        -- string.strip() - removing leading and trailing white spaces
+
+    - Zip
+        -- list(zip([1,2], [11,22])) --> [(1,11),(2,22)]
+    
+    - pip install to a different location
+        -- pip install --target=path library_to_be_installed
+    
+    - enforcing argument data type
+        from typing import Optional
+        -- def fn(text:Optional[str]) - forcing it to be string or None type
+        from typing import Union
+        -- def fn(value:Union[str, int]) - forcing it to be string or integer
+    
+    - object: Numpy
+        -- saving and loading
+            with open("test.npy", "wb") as f:
+                np.save(f,np.array([1,2]))
+                np.save(f,np.array([3,4]))
+            with open("test.npy","rb") as f:
+                a = np.load(f)
+                b = np.load(f)
+            print(a, b) --> [1,2] [3,4]
+    
+    - object: Path from pathlib
+        -- p = Path("C:\\A\\B\\c.exe")
+        -- str(p.parent) --> "C:\\A\\B"
+        -- p.name --> "c.exe"
+        -- p.suffix --> ".exe"
+        -- p.parts --> ("C:\\", "A", "B", "c.exe")
+        -- p.relative_to("C:\\A") --> WindowsPath("B/c.exe")
+        -- p.exists() --> True
+
+
+
+
+
+
+8. saving array as text, load with np
+    - flat array
+        -- sample_array = [32, 1446, 101, 1280]
+        -- a = list(map(str,sample_array)) --> ["32", "1446", "101", "1280"]
+        -- b = " ".join(a) --> "32 1446 101 1280"
+        -- with open("test.txt","w") as f: f.write(b)
+        -- c = np.loadtxt("test.txt",dtype=int)
+    - nested array - process
+        -- sample_array = [[1, 2], [3, 4]]
+        -- a = str(sample_array)
+        -- a = a[1:-2] --> "[1, 2], [3, 4"
+        -- a = a.replace("[","") --> "1, 2], [3, 4"
+        -- a = a.replace("]","\n") --> "1, 2\n, 3, 4"
+        -- a = a.replace(",", "") --> "1 2\n 3 4"
+        -- with open("test.txt","w") as f: f.write(a)
+    - nested array - decode
+        -- txt_array = "1 2\n 3 4"
+        -- a = text_array.split("\n") --> ["1 2", " 3 4"]
+        -- a = [[int(num) for num in block.strip().split(" ")] for block in a]
+        --> [[1, 2], [3, 4]]
+
+
+
+        
