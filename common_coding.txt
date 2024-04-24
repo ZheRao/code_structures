@@ -1,24 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7. Common Practices
+1. Common Practices
     - list related
         -- .item() - get a single number out of a list/tensor as a python regular int/float
         -- set(list) - create a set object that contains unique values in the list
@@ -98,12 +78,48 @@
         -- p.relative_to("C:\\A") --> WindowsPath("B/c.exe")
         -- p.exists() --> True
 
+    - write out as txt files
+        -- if os.path.exists(path): os.makedirs(path)
+        -- f = open(path,"w"/"a") - overwrite everything and create new file/append or create new file
+        -- f.write(message)
+        -- f.close()
+
+
+2. PyTorch
+    - common functions
+        -- torch.cat((a,b), dim=0) - concatenate two tensors along the 0th dimension
+        -- 
+
+    - device
+        -- device = "cuda" if torch.cuda.is_available() else "cpu"
+        -- next(model.parameters()).device
+    
+    - common practice for train and test loop
+        -- with torh.inference_mode() - set up inference mode for testing/validating
+        -- pred_labels = torch.round(model_output) - get predicted labels for binary classification
+        -- pred_labels = model_output.argmax(dim=1) - ....................... multiclass classification
+        -- opotimizer.zero_grad() - clear cache of optimizer (previous gradients)
+        -- loss.backward() - backpropagation
+        -- optimizer.step() - parameter updates
+        -- torch.eq(tensor1, tensor2).sum().item() - calculating correct predictions
+    
+    - data types
+        -- a.long() - convert torch tensor a from float(usually) to int64
+        -- a.float() - convert torch tensor a from int(usually) to float32
+    
+    - save & load models
+        -- torch.save(model.state_dict(), PATH)
+        -- model.load_state_dict(torch.load(PATH))
+    
+    - extract tensor element
+        -- a[0].detach().cpu().numpy().item()
 
 
 
 
 
-8. saving array as text, load with np
+
+Saving array as text, load with np
     - flat array
         -- sample_array = [32, 1446, 101, 1280]
         -- a = list(map(str,sample_array)) --> ["32", "1446", "101", "1280"]
@@ -124,6 +140,52 @@
         -- a = [[int(num) for num in block.strip().split(" ")] for block in a]
         --> [[1, 2], [3, 4]]
 
+Image dataset
+    - __init__ --> store image folder path, transform, and list of all file names in folder
+    - __len__ --> return number of files in the folder
+    - __getitem__ (idx)
+        1. construct complete path of a image (corresponding to idx)
+        2. read image data
+        3. apply transformation
+        4. return image
 
 
-        
+Convolutional dimensions calculation
+    - define
+        -- input dimension = i
+        -- kernel size = k
+        -- stride size = s 
+        -- padding size = p 
+        -- output dimension = o 
+
+    - convolutional layer calculation
+        -- o = (i + 2p - k) / s + 1
+
+    - transposed covolutional layer calculation
+        -- o = (i - 1) * s + k - 2p
+
+
+Pycocotools
+    from pycocotools.coco import coco
+
+    define
+        - annotation_path = "........../captions_train2017.json"
+        - image_directory = "........../images/train2017"
+        - coco = COCO(annotation_path)
+
+    coco keys
+        - anns
+        - dataset, cats, imgs, imgToAnns, cattoImgs
+
+    anns
+        - anns.keys ---> indicies, or id (for dataset and dataloader) --> e.g., [37, 49, 89, 98, 101]
+        - coco.anns[id] ---> {'image_id': 2222, 'id': 2, 'caption': "abcdefg"}
+        - coco.loadImgs(image_id)[0] ----> {'license':x, 'file_name': '000002155.jpg',
+                                            'height':480, 'width':460, 'date_captured',
+                                            'coco_url','flickr_url','id'}
+
+    access image through file_name and image_directory
+        - Image.open(path.join(dir,file_name)).convert("RGB")
+
+
+
