@@ -1,0 +1,36 @@
+Problem: Add Two Numbers
+    - given two non-empty linked list representing two non-negative integers. digits stored in reverse order, add them up and store them in a linked list (reversed order)
+        -- examples: l1 = [2,4,3], l2 = [5,6,4], output = [7,0,8], explanation: 342+465 = 807
+    - definition of linked list
+            class ListNode(object):
+                def __init__(self, val=0, next=None):
+                    self.val = val
+                    self.next = next
+    - solution idea: convert [2,4,3] to 342, [7,0,8] to 807, add numbers then convert back to list [7,0,8]
+        -- part 1: convert linked list to list: go through each node until next pointer is None, append values in a list
+                def LinkedListtoList(l):
+                    mylist = []
+                    while l.next:
+                        mylist.append(l.val)
+                        l = l.next
+                    mylist.append(l.val)
+                    return mylist
+        -- part 2: convert list to string (so it can be easily reversed), then convert it to integer
+                def listToInt(l):
+                    string_list = list(map(str,l))
+                    string = "".join(string_list)
+                    return int(string[::-1])
+        -- part 3: add numbers up
+                num1 = listToInt(LinkedListtoList(l1))
+                num2 = listToInt(LinkedListtoList(l2))
+        -- part 4: convert integer to string_list (without reversing because creating linked list requires right to left): 
+                def intToStringList(n):
+                    string_list = list(str(n))
+                    return string_list
+                total = intToStringList(num1 + num2)
+        -- part 5: convert the string_list to linked list
+                def stringListtoListNode(string_list):
+                    node = ListNode(val=int(string_list[0]),next=None)
+                    for i in range(1,len(string_list)):
+                        node = ListNode(val=int(string_list[i]),next=node)
+                    return node

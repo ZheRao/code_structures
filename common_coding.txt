@@ -12,8 +12,8 @@
         -- random.sample(list,k=n) - choose n random samples from the list
     
     - object: Dictionary
-        -- for key in dict: - retrieve the keys
-        -- for item in dict.items(): - retrieve the items
+        -- for key in dict or for key in dict.keys(): - retrieve the keys
+        -- for item in dict.items(): - retrieve the entire pairs, e.g., (key1, item1)
         -- dict.get(key,alt_value) - retrieve value from key, if not found, return alt_value
         -- itemgetter(*keys)(dict) - retrieve items corresponding to the keys
         -- with open(path, "wb") as f: pickle.dump(dict,f) - save Dictionary

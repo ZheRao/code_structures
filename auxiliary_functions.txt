@@ -1,0 +1,31 @@
+1. traverse many subfolders to move all the contents into one folder
+    - recursion
+        -- define a function that list all the directories of the path argument with a for loop, and for each directory
+        -- if it is in image format (it is an image), then move the image and finish the current recursive loop
+        -- if it is a directory, then call the function again with updated path (append the directory name into the path)
+
+    - move the images
+        -- create a new folder, and use shutil.copy to move the image
+
+    - details of the crawl_dir function
+
+        import os
+        from pathlib import Path
+        import shutil
+        TARGET_PATH = "bedroom_dataset"
+        def crawl_dir(path):
+            sub_dirs = os.listdir(path)
+            sub_dirs = [Path(str(path)+r"/"+item) for item in sub_dirs]
+            for sub_dir in sub_dirs:
+                if sub_dir.suffix != ".webp":
+                    crawl_dir(sub_dir)
+                else:
+                    target = os.path.join(TARGET_PATH,sub_dir.name)
+                    shutil.copy(sub_dir,target)
+        
+        -- for each path, list all the subfolders and create the full path for all subfolders
+
+
+
+
+2. 
