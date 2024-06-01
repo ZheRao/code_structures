@@ -124,7 +124,7 @@ Problem: Median of Two Sorted Arrays
         -- case 1: rp2 = 0
             --- if len(nums1) == len(nums2) - return average between nums1[-1] and nums2[0]
             --- if calculate median: return average between nums1[mp1] and min(nums1[mp1+1],nums2[0])
-            --- return nums1[mp1+1]
+            --- return min(nums1[mp1+1],num2[0])
         -- case 2: lp2 = len(nums2) - 1
             --- if len(nums1) == len(nums2) - return average between nums1[0] and nums2[-1]
             --- if calculate median: return average between max(nums1[mp1],nums2[-1]) and nums1[mp1+1]
