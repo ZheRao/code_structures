@@ -12,3 +12,6 @@ Problem: Longest Substring Without Repeating Characters
                 --- else
                     calculate length and pick the max between current length and past length, current length = r - l + 1
             -- record (or update) the last seen position of the current char to r
+
+
+
