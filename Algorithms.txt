@@ -1,3 +1,19 @@
+Problem: Longest Substring Without Repeating Characters
+    given a string s, find the length of the longest substring without repeating Characters
+        e.g., "abcabcbb" --> 3, "bbbbb" --> 1, "pwwkew" --> 3
+    Solution
+        - idea: use two pointers and ensure lengths is calculated only when there's no repeating chars with tracking occureences of chars (with index) in a dictionary
+            -- the left pointer will move to the right of repeating chars to ensure there is no repeating chars in the interval
+        - loop: the right pointer r goes through every index of the string, left pointer l is initialized to be 0, for each r:
+            -- extract the current char with index r,
+            -- decide between calculating length or move the left pointer l
+                --- if current char has been seen before (i.e., repeating) & the position of repeating char recorded in the dictionry is >= left
+                    move the left pointer l one index after the last recorded repeating char
+                --- else
+                    calculate length and pick the max between current length and past length, current length = r - l + 1
+            -- record (or update) the last seen position of the current char to r
+
+
 Problem: Median of Two Sorted Arrays
     - given two sorted arrays nums1 and nums2 of size m and n, return the median of the two sorted arrays
         -- e.g., nums1 = [1, 3] nums2 = [2] --> 2
@@ -150,9 +166,3 @@ Porblem: longest Palindromic Substring
 
 
 
-        
-            
-            
-        
-    
-    
